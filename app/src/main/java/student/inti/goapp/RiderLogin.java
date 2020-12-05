@@ -153,6 +153,7 @@ public class RiderLogin extends AppCompatActivity {
                                 Toast.makeText(RiderLogin.this, "WELCOME BACK.", Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(RiderLogin.this, DriverMaps.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
                             } else {
                                 Toast.makeText(RiderLogin.this, "ERROR. PLEASE TRY AGAIN LATER ", Toast.LENGTH_SHORT).show();

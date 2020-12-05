@@ -67,7 +67,7 @@ public class DriverForgetPassword extends AppCompatActivity {
                             handler1.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Intent intent = new Intent(DriverForgetPassword.this, CustomerLogin.class);
+                                    Intent intent = new Intent(DriverForgetPassword.this, RiderLogin.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 }
@@ -84,7 +84,7 @@ public class DriverForgetPassword extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DriverForgetPassword.this, CustomerLogin.class);
+                Intent intent = new Intent(DriverForgetPassword.this, RiderLogin.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
