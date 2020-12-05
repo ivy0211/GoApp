@@ -21,23 +21,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 public class CustomerLogin extends AppCompatActivity {
 
-    private TextView CreateCustomerAccount;
-    private TextView TitleCustomer;
-    private TextView login;
-    private Button LoginCustomerButton;
-    private Button RegisterCustomerButton;
-    private EditText CustomerEmail;
-    private EditText CustomerPassword;
+    private TextView createAccount,title, login, forgetPassword;
+    private Button btnLogin, btnReg;
+    private EditText email, password;
 
     private DatabaseReference customersDatabaseRef;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListner;
-
     private ProgressDialog loadingBar;
-
     private FirebaseUser currentUser;
+
     String currentUserId;
 
     @Override
@@ -60,56 +57,65 @@ public class CustomerLogin extends AppCompatActivity {
             }
         };
 
-        CreateCustomerAccount = (TextView) findViewById(R.id.customer_register_link);
-        login = (TextView) findViewById(R.id.login_customer);
-        TitleCustomer = (TextView) findViewById(R.id.customer_status);
-        LoginCustomerButton = (Button) findViewById(R.id.customer_login_btn);
-        RegisterCustomerButton = (Button) findViewById(R.id.customer_register_btn);
-        CustomerEmail = (EditText) findViewById(R.id.customer_email);
-        CustomerPassword = (EditText) findViewById(R.id.customer_password);
+        createAccount = (TextView) findViewById(R.id.txt_reg);
+        login = (TextView) findViewById(R.id.txt_login);
+        forgetPassword = (TextView) findViewById(R.id.forgetPassword);
+        title = (TextView) findViewById(R.id.title);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnReg = (Button) findViewById(R.id.btn_reg);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
         loadingBar = new ProgressDialog(this);
 
-        RegisterCustomerButton.setVisibility(View.INVISIBLE);
-        RegisterCustomerButton.setEnabled(false);
+        forgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CustomerLogin.this, ForgetPassword.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
 
-        CreateCustomerAccount.setOnClickListener(new View.OnClickListener() {
+        createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateCustomerAccount.setVisibility(View.INVISIBLE);
-                LoginCustomerButton.setVisibility(View.INVISIBLE);
-                TitleCustomer.setText("CUSTOMER REGISTRATION");
+                createAccount.setVisibility(View.INVISIBLE);
+                btnLogin.setVisibility(View.INVISIBLE);
+                forgetPassword.setVisibility(View.INVISIBLE);
+                title.setText("CUSTOMER REGISTRATION");
 
                 login.setVisibility(View.VISIBLE);
-                RegisterCustomerButton.setVisibility(View.VISIBLE);
-                RegisterCustomerButton.setEnabled(true);
+                btnReg.setVisibility(View.VISIBLE);
+                btnReg.setEnabled(true);
             }
         });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateCustomerAccount.setVisibility(View.VISIBLE);
-                LoginCustomerButton.setVisibility(View.VISIBLE);
-                TitleCustomer.setText("CUSTOMER LOGIN");
+                createAccount.setVisibility(View.VISIBLE);
+                btnLogin.setVisibility(View.VISIBLE);
+                forgetPassword.setVisibility(View.VISIBLE);
+                title.setText("CUSTOMER LOGIN");
 
                 login.setVisibility(View.INVISIBLE);
-                RegisterCustomerButton.setVisibility(View.INVISIBLE);
-                LoginCustomerButton.setEnabled(true);
+                btnReg.setVisibility(View.INVISIBLE);
+                btnLogin.setEnabled(true);
             }
         });
 
 
-        RegisterCustomerButton.setOnClickListener(new View.OnClickListener() {
+        btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = CustomerEmail.getText().toString();
-                String password = CustomerPassword.getText().toString();
+                String customerEmail = email.getText().toString();
+                String customerPassword = password.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(customerEmail)) {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR EMAIL", Toast.LENGTH_SHORT).show();
                 }
 
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(customerPassword)) {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -117,7 +123,7 @@ public class CustomerLogin extends AppCompatActivity {
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA");
                     loadingBar.show();
 
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(customerEmail, customerPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -140,24 +146,24 @@ public class CustomerLogin extends AppCompatActivity {
             }
         });
 
-        LoginCustomerButton.setOnClickListener(new View.OnClickListener() {
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = CustomerEmail.getText().toString();
-                String password = CustomerPassword.getText().toString();
+                String customerEmail = email.getText().toString();
+                String customerPassword = password.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(customerEmail)) {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR EMAIL", Toast.LENGTH_SHORT).show();
                 }
 
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(customerPassword)) {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
                 } else {
                     loadingBar.setTitle("PLEASE WAIT :");
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA");
                     loadingBar.show();
 
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(customerEmail, customerPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {

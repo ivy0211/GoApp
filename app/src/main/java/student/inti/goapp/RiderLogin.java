@@ -23,13 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RiderLogin extends AppCompatActivity {
 
-    private TextView CreateDriverAccount;
-    private TextView TitleDriver;
-    private TextView login;
-    private Button LoginDriverButton;
-    private Button RegisterDriverButton;
-    private EditText DriverEmail;
-    private EditText DriverPassword;
+    private TextView regTxt, title, login, forget;
+    private Button btn_login, btn_reg;
+    private EditText email, password;
 
     private DatabaseReference driversDatabaseRef;
     private FirebaseAuth mAuth;
@@ -45,62 +41,72 @@ public class RiderLogin extends AppCompatActivity {
         setContentView(R.layout.activity_rider_login);
 
         mAuth = FirebaseAuth.getInstance();
-        CreateDriverAccount = (TextView) findViewById(R.id.create_driver_account);
-        TitleDriver = (TextView) findViewById(R.id.title_driver);
-        LoginDriverButton = (Button) findViewById(R.id.login_driver_btn);
-        RegisterDriverButton = (Button) findViewById(R.id.register_driver_btn);
-        DriverEmail = (EditText) findViewById(R.id.driver_email);
-        DriverPassword = (EditText) findViewById(R.id.driver_password);
+        regTxt = (TextView) findViewById(R.id.txt_reg);
+        title = (TextView) findViewById(R.id.title);
+        forget = (TextView) findViewById(R.id.forgetPassword);
+        btn_login = (Button) findViewById(R.id.btn_login);
+        btn_reg = (Button) findViewById(R.id.btn_reg);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
         login = (TextView) findViewById(R.id.login);
         loadingBar = new ProgressDialog(this);
 
-        RegisterDriverButton.setVisibility(View.INVISIBLE);
-        RegisterDriverButton.setEnabled(false);
+        btn_reg.setVisibility(View.INVISIBLE);
+        btn_reg.setEnabled(false);
 
-        CreateDriverAccount.setOnClickListener(new View.OnClickListener() {
+        forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RiderLogin.this, DriverForgetPassword.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
+
+        regTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateDriverAccount.setVisibility(View.INVISIBLE);
-                LoginDriverButton.setVisibility(View.INVISIBLE);
-                TitleDriver.setText("DRIVER REGISTRATION");
+                regTxt.setVisibility(View.INVISIBLE);
+                btn_login.setVisibility(View.INVISIBLE);
+                title.setText("DRIVER REGISTRATION");
 
                 login.setVisibility(View.VISIBLE);
-                RegisterDriverButton.setVisibility(View.VISIBLE);
-                RegisterDriverButton.setEnabled(true);
+                btn_reg.setVisibility(View.VISIBLE);
+                btn_reg.setEnabled(true);
             }
         });
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateDriverAccount.setVisibility(View.VISIBLE);
-                LoginDriverButton.setVisibility(View.VISIBLE);
-                TitleDriver.setText("DRIVER LOGIN");
+                regTxt.setVisibility(View.VISIBLE);
+                btn_login.setVisibility(View.VISIBLE);
+                title.setText("DRIVER LOGIN");
 
                 login.setVisibility(View.INVISIBLE);
-                RegisterDriverButton.setVisibility(View.INVISIBLE);
-                LoginDriverButton.setEnabled(true);
+                btn_reg.setVisibility(View.INVISIBLE);
+                btn_login.setEnabled(true);
             }
         });
 
-        RegisterDriverButton.setOnClickListener(new View.OnClickListener() {
+        btn_reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = DriverEmail.getText().toString();
-                String password = DriverPassword.getText().toString();
+                String driverEmail = email.getText().toString();
+                String driverPassword = password.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(driverEmail)) {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR EMAIL", Toast.LENGTH_SHORT).show();
                 }
 
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(driverPassword)) {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
 
                 } else {
                     loadingBar.setTitle("PLEASE WAIT :");
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA INFORMATION");
                     loadingBar.show();
-                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.createUserWithEmailAndPassword(driverEmail, driverPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
@@ -122,23 +128,23 @@ public class RiderLogin extends AppCompatActivity {
         });
 
 
-        LoginDriverButton.setOnClickListener(new View.OnClickListener() {
+        btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = DriverEmail.getText().toString();
-                String password = DriverPassword.getText().toString();
+                String driverEmail = email.getText().toString();
+                String driverPassword = password.getText().toString();
 
-                if (TextUtils.isEmpty(email)) {
+                if (TextUtils.isEmpty(driverEmail)) {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR EMAIL", Toast.LENGTH_SHORT).show();
                 }
 
-                if (TextUtils.isEmpty(password)) {
+                if (TextUtils.isEmpty(driverPassword)) {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
                 } else {
                     loadingBar.setTitle("Please wait :");
                     loadingBar.setMessage("While system is performing processing on your data...");
                     loadingBar.show();
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    mAuth.signInWithEmailAndPassword(driverEmail, driverPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {

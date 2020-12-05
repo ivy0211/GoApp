@@ -162,7 +162,8 @@ public class DriverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         LocationLng = Double.parseDouble(customerLocationMap.get(1).toString());
                     }
                     LatLng DriverLatLng = new LatLng(LocationLat, LocationLng);
-                    PickUpMarker = mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("CUSTOMER PICKUP LOCATION").icon(BitmapDescriptorFactory.fromResource(R.drawable.user)));
+                    PickUpMarker = mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("CUSTOMER PICKUP LOCATION")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.user)));
                 }
             }
 
@@ -178,7 +179,9 @@ public class DriverMaps extends FragmentActivity implements OnMapReadyCallback, 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 

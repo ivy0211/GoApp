@@ -51,27 +51,21 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
     Location LastLocation;
     LocationRequest locationRequest;
 
-    private Button Logout;
-    private Button SettingsButton;
-    private Button CallCabCarButton;
+    private Button logOut, settings, order;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private DatabaseReference CustomerDatabaseRef;
-    private LatLng CustomerPickUpLocation;
-
-    private DatabaseReference DriverAvailableRef, DriverLocationRef;
-    private DatabaseReference DriversRef;
+    private DatabaseReference databaseReference, driver, driverLocation, driversRef;
+    private LatLng pickupLocation;
     private int radius = 1;
 
     private Boolean driverFound = false, requestType = false;
-    private String driverFoundID;
-    private String customerID;
-    Marker DriverMarker, PickUpMarker;
+    private String driverID, customerID;
+    Marker driverMaker, pickupMaker;
     GeoQuery geoQuery;
 
-    private ValueEventListener DriverLocationRefListner;
+    private ValueEventListener listener;
 
-    TextView txtName, txtPhone, txtCarName;
+    private TextView txtName, txtPhone, txtCarName;
     private CircleImageView profilePic;
     private RelativeLayout relativeLayout;
 
@@ -83,14 +77,14 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         customerID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        CustomerDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Customer Requests");
-        DriverAvailableRef = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
-        DriverLocationRef = FirebaseDatabase.getInstance().getReference().child("Drivers Working");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Customer Requests");
+        driver = FirebaseDatabase.getInstance().getReference().child("Drivers Available");
+        driverLocation = FirebaseDatabase.getInstance().getReference().child("Drivers Working");
 
 
-        Logout = (Button) findViewById(R.id.logout_customer_btn);
-        SettingsButton = (Button) findViewById(R.id.settings_customer_btn);
-        CallCabCarButton = (Button) findViewById(R.id.call_a_car_button);
+        logOut = (Button) findViewById(R.id.logout_customer_btn);
+        settings = (Button) findViewById(R.id.settings_customer_btn);
+        order = (Button) findViewById(R.id.call_a_car_button);
 
         txtName = findViewById(R.id.name_driver);
         txtPhone = findViewById(R.id.phone_driver);
@@ -102,7 +96,7 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-        SettingsButton.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CustomerMaps.this, Settings.class);
@@ -111,7 +105,7 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        Logout.setOnClickListener(new View.OnClickListener() {
+        logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
@@ -121,46 +115,46 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-        CallCabCarButton.setOnClickListener(new View.OnClickListener() {
+        order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (requestType) {
                     requestType = false;
                     geoQuery.removeAllListeners();
-                    DriverLocationRef.removeEventListener(DriverLocationRefListner);
+                    driverLocation.removeEventListener(listener);
 
                     if (driverFound != null) {
-                        DriversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundID).child("CustomerRideID");
-                        DriversRef.removeValue();
-                        driverFoundID = null;
+                        driversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverID).child("CustomerRideID");
+                        driversRef.removeValue();
+                        driverID = null;
                     }
                     driverFound = false;
                     radius = 1;
                     String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    GeoFire geoFire = new GeoFire(CustomerDatabaseRef);
+                    GeoFire geoFire = new GeoFire(databaseReference);
                     geoFire.removeLocation(customerId);
 
-                    if (PickUpMarker != null) {
-                        PickUpMarker.remove();
+                    if (pickupMaker != null) {
+                        pickupMaker.remove();
                     }
-                    if (DriverMarker != null) {
-                        DriverMarker.remove();
+                    if (driverMaker != null) {
+                        driverMaker.remove();
                     }
 
-                    CallCabCarButton.setText("ORDER REQUEST");
+                    order.setText("ORDER REQUEST");
                     relativeLayout.setVisibility(View.GONE);
                 } else {
                     requestType = true;
 
                     String customerId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    GeoFire geoFire = new GeoFire(CustomerDatabaseRef);
+                    GeoFire geoFire = new GeoFire(databaseReference);
                     geoFire.setLocation(customerId, new GeoLocation(LastLocation.getLatitude(), LastLocation.getLongitude()));
 
-                    CustomerPickUpLocation = new LatLng(LastLocation.getLatitude(), LastLocation.getLongitude());
-                    PickUpMarker = mMap.addMarker(new MarkerOptions().position(CustomerPickUpLocation).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.user)));
+                    pickupLocation = new LatLng(LastLocation.getLatitude(), LastLocation.getLongitude());
+                    pickupMaker = mMap.addMarker(new MarkerOptions().position(pickupLocation).title("My Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.user)));
 
-                    CallCabCarButton.setText("GETTING YOUR DRIVER");
+                    order.setText("GETTING YOUR DRIVER");
                     getClosetDriverCab();
                 }
             }
@@ -169,8 +163,8 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
 
 
     private void getClosetDriverCab() {
-        GeoFire geoFire = new GeoFire(DriverAvailableRef);
-        geoQuery = geoFire.queryAtLocation(new GeoLocation(CustomerPickUpLocation.latitude, CustomerPickUpLocation.longitude), radius);
+        GeoFire geoFire = new GeoFire(driver);
+        geoQuery = geoFire.queryAtLocation(new GeoLocation(pickupLocation.latitude, pickupLocation.longitude), radius);
         geoQuery.removeAllListeners();
 
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -178,16 +172,16 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
             public void onKeyEntered(String key, GeoLocation location) {
                 if (!driverFound && requestType) {
                     driverFound = true;
-                    driverFoundID = key;
+                    driverID = key;
 
-                    DriversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundID);
+                    driversRef = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverID);
                     HashMap driversMap = new HashMap();
                     driversMap.put("CustomerRideID", customerID);
-                    DriversRef.updateChildren(driversMap);
+                    driversRef.updateChildren(driversMap);
 
                     //Show driver location on customerMapActivity
                     GettingDriverLocation();
-                    CallCabCarButton.setText("LOOKING FOR DRIVER LOCATION");
+                    order.setText("LOOKING FOR DRIVER LOCATION");
                 }
             }
 
@@ -219,7 +213,7 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
 
     //and then we get to the driver location - to tell customer where is the driver
     private void GettingDriverLocation() {
-        DriverLocationRefListner = DriverLocationRef.child(driverFoundID).child("l")
+        listener = driverLocation.child(driverID).child("l")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -227,7 +221,7 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
                             List<Object> driverLocationMap = (List<Object>) dataSnapshot.getValue();
                             double LocationLat = 0;
                             double LocationLng = 0;
-                            CallCabCarButton.setText("DRIVER FOUND");
+                            order.setText("DRIVER FOUND");
 
 
                             relativeLayout.setVisibility(View.VISIBLE);
@@ -243,14 +237,14 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
 
                             //adding marker - to pointing where driver is - using this lat lng
                             LatLng DriverLatLng = new LatLng(LocationLat, LocationLng);
-                            if (DriverMarker != null) {
-                                DriverMarker.remove();
+                            if (driverMaker != null) {
+                                driverMaker.remove();
                             }
 
 
                             Location location1 = new Location("");
-                            location1.setLatitude(CustomerPickUpLocation.latitude);
-                            location1.setLongitude(CustomerPickUpLocation.longitude);
+                            location1.setLatitude(pickupLocation.latitude);
+                            location1.setLongitude(pickupLocation.longitude);
 
                             Location location2 = new Location("");
                             location2.setLatitude(DriverLatLng.latitude);
@@ -259,12 +253,12 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
                             float Distance = location1.distanceTo(location2);
 
                             if (Distance < 90) {
-                                CallCabCarButton.setText("DRIVER RECEIVED");
+                                order.setText("DRIVER RECEIVED");
                             } else {
-                                CallCabCarButton.setText("DRIVER FOUND: " + String.valueOf(Distance));
+                                order.setText("DRIVER FOUND: " + String.valueOf(Distance));
                             }
 
-                            DriverMarker = mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("YOUR DRIVER HAS ARRIVE").icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
+                            driverMaker = mMap.addMarker(new MarkerOptions().position(DriverLatLng).title("YOUR DRIVER HAS ARRIVE").icon(BitmapDescriptorFactory.fromResource(R.drawable.car)));
                         }
                     }
 
@@ -355,7 +349,7 @@ public class CustomerMaps extends FragmentActivity implements OnMapReadyCallback
 
 
     private void getAssignedDriverInformation() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverFoundID);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child("Drivers").child(driverID);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

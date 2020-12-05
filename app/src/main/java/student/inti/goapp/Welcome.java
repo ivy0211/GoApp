@@ -1,5 +1,6 @@
 package student.inti.goapp;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,8 +13,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Welcome extends AppCompatActivity {
 
-    private Button DriverWelcomeButton;
-    private Button CustomerWelcomeButton;
+    private Button driver_btn, customer_btn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListner;
     private FirebaseUser currentUser;
@@ -24,10 +24,10 @@ public class Welcome extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         mAuth = FirebaseAuth.getInstance();
-        DriverWelcomeButton = (Button) findViewById(R.id.driver_welcome_btn);
-        CustomerWelcomeButton = (Button) findViewById(R.id.customer_welcome_btn);
+        driver_btn = (Button) findViewById(R.id.btn_driver);
+        customer_btn = (Button) findViewById(R.id.btn_customer);
 
-        DriverWelcomeButton.setOnClickListener(new View.OnClickListener() {
+        driver_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Welcome.this, RiderLogin.class);
@@ -36,7 +36,7 @@ public class Welcome extends AppCompatActivity {
             }
         });
 
-        CustomerWelcomeButton.setOnClickListener(new View.OnClickListener() {
+        customer_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Welcome.this, CustomerLogin.class);

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/customer_status"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo"/>
 
     <EditText
-        android:id="@+id/customer_email"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -47,10 +47,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customer_status"/>
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <EditText
-        android:id="@+id/customer_password"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -65,10 +65,22 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/customer_email" />
+        app:layout_constraintTop_toBottomOf="@id/email" />
+
+    <TextView
+        android:id="@+id/forgetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FORGET PASSWORD"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/customer_login_btn"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -76,19 +88,19 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/red"
-        android:text="Login"
+        android:text="LOGIN"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/customer_register_link"
+        app:layout_constraintBottom_toTopOf="@id/txt_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/customer_register_link"
+        android:id="@+id/txt_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Don't have an Account ?"
+        android:text="DON'T HAVE AN ACCOUNT?"
         android:textColor="@color/red"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -96,7 +108,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/customer_register_btn"
+        android:id="@+id/btn_reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -104,19 +116,19 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/red"
-        android:text="Register"
+        android:text="REGISTER"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/customer_register_link"
+        app:layout_constraintBottom_toTopOf="@id/txt_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/login_customer"
+        android:id="@+id/txt_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="LOGIN"
+        android:text="HAVE AN ACCOUNT?"
         android:visibility="invisible"
         android:textColor="@color/red"
         android:textSize="15sp"

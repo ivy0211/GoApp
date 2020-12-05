@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/title_driver"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@id/logo"/>
 
     <EditText
-        android:id="@+id/driver_email"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -47,10 +47,10 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_driver"/>
+        app:layout_constraintTop_toBottomOf="@id/title"/>
 
     <EditText
-        android:id="@+id/driver_password"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginStart="10dp"
@@ -65,10 +65,23 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/driver_email" />
+        app:layout_constraintTop_toBottomOf="@id/email" />
+
+    <TextView
+        android:id="@+id/forgetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FORGET PASSWORD"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/login_driver_btn"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -76,27 +89,27 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/red"
-        android:text="Login"
+        android:text="LOGIN"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/create_driver_account"
+        app:layout_constraintBottom_toTopOf="@id/txt_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/create_driver_account"
+        android:id="@+id/txt_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Don't have an Account ?"
+        android:text="DON'T HAVE AN ACCOUNT?"
         android:textColor="@color/red"
-        android:textSize="12sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/register_driver_btn"
+        android:id="@+id/btn_reg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -104,10 +117,10 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/shape"
         android:backgroundTint="@color/red"
-        android:text="Register"
+        android:text="REGISTER"
         android:textColor="@color/white"
         android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@id/create_driver_account"
+        app:layout_constraintBottom_toTopOf="@id/txt_reg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
@@ -116,10 +129,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Login"
+        android:text="HAVE AN ACCOUNT?"
         android:visibility="invisible"
         android:textColor="@color/red"
-        android:textSize="12sp"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

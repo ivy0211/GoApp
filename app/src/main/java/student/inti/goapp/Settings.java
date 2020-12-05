@@ -1,5 +1,4 @@
 package student.inti.goapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,13 +29,13 @@ import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Settings extends AppCompatActivity {
 
     private String getType;
-
     private CircleImageView profileImageView;
     private EditText nameEditText, phoneEditText, driverCarName;
     private ImageView closeButton, saveButton;
@@ -63,18 +62,18 @@ public class Settings extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users").child(getType);
         storageProfilePicsRef = FirebaseStorage.getInstance().getReference().child("Profile Pictures");
 
-        profileImageView = findViewById(R.id.profile_image);
+        profileImageView = findViewById(R.id.profile);
         nameEditText = findViewById(R.id.name);
-        phoneEditText = findViewById(R.id.phone_number);
+        phoneEditText = findViewById(R.id.phoneNum);
 
-        driverCarName = findViewById(R.id.driver_car_name);
+        driverCarName = findViewById(R.id.car);
         if (getType.equals("Drivers")) {
             driverCarName.setVisibility(View.VISIBLE);
         }
 
-        closeButton = findViewById(R.id.close_button);
-        saveButton = findViewById(R.id.save_button);
-        profileChangeBtn = findViewById(R.id.change_picture_btn);
+        closeButton = findViewById(R.id.btn_close);
+        saveButton = findViewById(R.id.btn_save);
+        profileChangeBtn = findViewById(R.id.txt_profile);
 
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,18 +123,18 @@ public class Settings extends AppCompatActivity {
             } else {
                 startActivity(new Intent(Settings.this, CustomerMaps.class));
             }
-            Toast.makeText(this, "Error, Try Again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "ERROR, PLEASE TRY AGAIN.", Toast.LENGTH_SHORT).show();
         }
     }
 
 
     private void validateControllers() {
         if (TextUtils.isEmpty(nameEditText.getText().toString())) {
-            Toast.makeText(this, "Please provide your name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLEASE ENTER YOUR NAME", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
-            Toast.makeText(this, "Please provide your phone number.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLEASE ENTER YOUR PHONE NUMBER", Toast.LENGTH_SHORT).show();
         } else if (getType.equals("Drivers") && TextUtils.isEmpty(driverCarName.getText().toString())) {
-            Toast.makeText(this, "Please provide your car Name.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLEASE ENTER YOUR CAR TYPE", Toast.LENGTH_SHORT).show();
         } else if (checker.equals("clicked")) {
             uploadProfilePicture();
         }
@@ -153,7 +152,7 @@ public class Settings extends AppCompatActivity {
 
             uploadTask = fileRef.putFile(imageUri);
 
-            uploadTask.continueWithTask(new Continuation() {
+            Task task = uploadTask.continueWithTask(new Continuation() {
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
                     if (!task.isSuccessful()) {

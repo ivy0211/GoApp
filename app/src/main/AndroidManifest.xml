@@ -39,6 +39,8 @@
         <activity
             android:name=".DriverMaps"
             android:label="@string/title_activity_driver_maps" />
+        <activity android:name=".ForgetPassword"/>
+        <activity android:name=".DriverForgetPassword"/>
         <activity android:name=".CustomerLogin" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
