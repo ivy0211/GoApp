@@ -101,7 +101,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:hint="CAR TYPE"
+        android:hint="CAR PLATE NUMBER"
         android:background="@drawable/box"
         android:gravity="center"
         android:visibility="gone" />

@@ -70,6 +70,7 @@ public class RiderLogin extends AppCompatActivity {
                 btn_login.setVisibility(View.INVISIBLE);
                 title.setText("DRIVER REGISTRATION");
 
+                forget.setVisibility(View.INVISIBLE);
                 login.setVisibility(View.VISIBLE);
                 btn_reg.setVisibility(View.VISIBLE);
                 btn_reg.setEnabled(true);
@@ -81,6 +82,7 @@ public class RiderLogin extends AppCompatActivity {
             public void onClick(View v) {
                 regTxt.setVisibility(View.VISIBLE);
                 btn_login.setVisibility(View.VISIBLE);
+                forget.setVisibility(View.VISIBLE);
                 title.setText("DRIVER LOGIN");
 
                 login.setVisibility(View.INVISIBLE);
@@ -103,7 +105,7 @@ public class RiderLogin extends AppCompatActivity {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    loadingBar.setTitle("PLEASE WAIT :");
+                    loadingBar.setTitle("PLEASE WAIT:");
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA INFORMATION");
                     loadingBar.show();
                     mAuth.createUserWithEmailAndPassword(driverEmail, driverPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -141,7 +143,7 @@ public class RiderLogin extends AppCompatActivity {
                 if (TextUtils.isEmpty(driverPassword)) {
                     Toast.makeText(RiderLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
                 } else {
-                    loadingBar.setTitle("Please wait :");
+                    loadingBar.setTitle("Please wait:");
                     loadingBar.setMessage("While system is performing processing on your data...");
                     loadingBar.show();
                     mAuth.signInWithEmailAndPassword(driverEmail, driverPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {

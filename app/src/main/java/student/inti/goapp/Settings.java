@@ -134,7 +134,7 @@ public class Settings extends AppCompatActivity {
         } else if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
             Toast.makeText(this, "PLEASE ENTER YOUR PHONE NUMBER", Toast.LENGTH_SHORT).show();
         } else if (getType.equals("Drivers") && TextUtils.isEmpty(driverCarName.getText().toString())) {
-            Toast.makeText(this, "PLEASE ENTER YOUR CAR TYPE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLEASE ENTER YOUR CAR PLATE NUMBER", Toast.LENGTH_SHORT).show();
         } else if (checker.equals("clicked")) {
             uploadProfilePicture();
         }
@@ -200,7 +200,7 @@ public class Settings extends AppCompatActivity {
         } else if (TextUtils.isEmpty(phoneEditText.getText().toString())) {
             Toast.makeText(this, "PLEASE ENTER YOUR PHONE NUMBER", Toast.LENGTH_SHORT).show();
         } else if (getType.equals("Drivers") && TextUtils.isEmpty(driverCarName.getText().toString())) {
-            Toast.makeText(this, "PLEASE SPECIFY YOUR CAR TYPE.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "PLEASE SPECIFY YOUR CAR PLATE NUMBER.", Toast.LENGTH_SHORT).show();
         } else {
             HashMap<String, Object> userMap = new HashMap<>();
             userMap.put("uid", mAuth.getCurrentUser().getUid());

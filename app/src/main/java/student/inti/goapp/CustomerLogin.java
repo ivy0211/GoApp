@@ -119,7 +119,7 @@ public class CustomerLogin extends AppCompatActivity {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    loadingBar.setTitle("PLEASE WAIT :");
+                    loadingBar.setTitle("PLEASE WAIT:");
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA");
                     loadingBar.show();
 
@@ -159,7 +159,7 @@ public class CustomerLogin extends AppCompatActivity {
                 if (TextUtils.isEmpty(customerPassword)) {
                     Toast.makeText(CustomerLogin.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
                 } else {
-                    loadingBar.setTitle("PLEASE WAIT :");
+                    loadingBar.setTitle("PLEASE WAIT:");
                     loadingBar.setMessage("WHILE THE SYSTEM PROCESSING YOUR DATA");
                     loadingBar.show();
 
